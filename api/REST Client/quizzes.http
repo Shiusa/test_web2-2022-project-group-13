@@ -1,24 +1,16 @@
 ######### NORMAL OPERATION  ###########
 
-### Read all pizzas
-GET http://localhost:3000/pizzas
+### Read all quizzes with File variable
+@baseUrl = http://localhost:3000
+GET {{baseUrl}}/quiz
 
-### Read all pizzas with File variable
-@baseUrl = http://localhost:3000/quiz
-GET {{baseUrl}}/pizzas
+### Read quiz identified by 2
+GET {{baseUrl}}/quiz/2
 
-### Read all pizzas sorted by title (ascending)
-GET {{baseUrl}}/pizzas/?order=+title
-
-### Read all pizzas sorted by title (descending)
-GET {{baseUrl}}/pizzas/?order=-title
-
-### Read pizza identified by 2
-GET {{baseUrl}}/pizzas/2
-
-### Create a pizza
-POST {{baseUrl}}/addQuiz
+### Create a quiz
+POST {{baseUrl}}/quiz/addQuiz
 Content-Type: application/json
+
 
 {
     "quizName":"Magic Green",
@@ -48,38 +40,36 @@ Content-Type: application/json
         "badAnswer2" : "MR2",
         "badAnswer3" : "MR3"
         }
-    ]
+    ],
+    "isVerified": true
 }
 
-### Delete pizza identified by 2
-DELETE {{baseUrl}}/pizzas/2
+### Delete quiz identified by 2
+DELETE {{baseUrl}}/quiz/2
 
-### Update the pizza identified by 6
-PATCH {{baseUrl}}/pizzas/6
+### Update the quiz identified by 6
+PATCH {{baseUrl}}/quiz/6
 Content-Type: application/json
 
 {
     "title":"Magic Green 2"
 }
 
-
-
-
 ######### ERROR OPERATION  ###########
 
-### Read pizza which does not exists
-GET {{baseUrl}}/pizzas/100
+### Read quiz which does not exists
+GET {{baseUrl}}/quiz/100
 
-### Create a pizza which lacks a property
-POST {{baseUrl}}/pizzas
+### Create a quiz which lacks a property
+POST {{baseUrl}}/quiz
 Content-Type: application/json
 
 {
     "content":"Epinards, Brocolis, Olives vertes, Basilic"
 }
 
-### Create a pizza without info for a property
-POST {{baseUrl}}/pizzas
+### Create a quiz without info for a property
+POST {{baseUrl}}/quiz
 Content-Type: application/json
 
 {
@@ -87,16 +77,16 @@ Content-Type: application/json
     "content":"Epinards, Brocolis, Olives vertes, Basilic"
 }
 
-### Update for a pizza which does not exist
-PUT {{baseUrl}}/pizzas/200
+### Update for a quiz which does not exist
+PUT {{baseUrl}}/quiz/200
 Content-Type: application/json
 
 {
     "title":"Magic Green 2"
 }
 
-### Update for a pizza which does not provide any info for a property
-PUT {{baseUrl}}/pizzas/1
+### Update for a quiz which does not provide any info for a property
+PUT {{baseUrl}}/quiz/1
 Content-Type: application/json
 
 {

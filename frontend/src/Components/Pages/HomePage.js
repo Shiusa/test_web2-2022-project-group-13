@@ -1,5 +1,6 @@
 import anime from 'animejs/lib/anime.es';
 import { clearPage } from '../../utils/render';
+import RedirectQuiz from '../Router/Redirect';
 
 let quizzes;
 const HomePage = async () => {
@@ -8,11 +9,7 @@ const HomePage = async () => {
     const response = await fetch('/api/quiz');
     if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     quizzes = await response.json();
-
-    renderQuizzesFromString(quizzes);
-
-    animationHome();
-    animationQuizHoverHome();
+    renderHomePage(quizzes);
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error('HomePage::error: ', err);
@@ -25,9 +22,9 @@ function goToQuizButton() {
     document.getElementById('quizName').scrollIntoView();
   });
 }
-function renderQuizzesFromString(Allquiz) {
+function renderHomePage(Allquiz) {
   const bomb = bombDisplay();
-  const menuTableAsString = getMenuTableAsString(Allquiz);
+  const menuTableAsString = getQuizDivseAsString(Allquiz);
   const main = document.querySelector('main');
 
   // home
@@ -38,11 +35,13 @@ function renderQuizzesFromString(Allquiz) {
   divHome.className = 'container-fluid banner';
   const titleHome = document.createElement('h2');
   const descriptionHome = document.createElement('h3');
-  const buttonToQuiz = document.createElement('a');
 
+  // button href to quiz display
+  const buttonToQuiz = document.createElement('a');
   buttonToQuiz.id = 'refToQuiz';
-  buttonToQuiz.className = 'btn purple';
+  buttonToQuiz.className = 'btn orange';
   buttonToQuiz.textContent = 'Start';
+
   titleHome.textContent = 'Time to Quiz !';
   titleHome.className = 'title-home';
   descriptionHome.textContent = 'Have fun, learn and create your own quiz by registering.';
@@ -52,7 +51,7 @@ function renderQuizzesFromString(Allquiz) {
   sectionHome.appendChild(buttonToQuiz);
   divHome.appendChild(sectionHome);
 
-  // form search quizName
+  // creation input for search
   const quizName = document.createElement('input');
 
   const divInputs = document.createElement('div');
@@ -64,7 +63,7 @@ function renderQuizzesFromString(Allquiz) {
   divInputs.id = 'refQuiz';
   submitButton.id = 'buttonSearch';
   submitButton.type = 'submit';
-  submitButton.className = 'btn purple';
+  submitButton.className = 'btn orange';
   submitButton.textContent = 'Go';
   quizName.type = 'text';
   quizName.className = 'form-control';
@@ -74,6 +73,7 @@ function renderQuizzesFromString(Allquiz) {
   quizName.required = true;
 
   // dom add
+
   divInputs.appendChild(quizName);
   divInputs.appendChild(submitButton);
   divCenter.appendChild(divInputs);
@@ -81,6 +81,8 @@ function renderQuizzesFromString(Allquiz) {
   main.appendChild(divCenter);
 
   main.innerHTML += menuTableAsString;
+
+  // event listening for search
 
   const inputQuiz = main.querySelector('#quizName');
   inputQuiz.addEventListener('keypress', async (e) => {
@@ -95,7 +97,13 @@ function renderQuizzesFromString(Allquiz) {
     await searchBar();
     document.getElementById('quizName').scrollIntoView();
   });
+
+  // animations and buttons
+
   goToQuizButton();
+  animationQuizHoverHome();
+  animationHome();
+  attachOnClickEventsToRenderQuiz(quizzes);
 }
 
 async function searchBar() {
@@ -104,41 +112,52 @@ async function searchBar() {
     const response = await fetch(`/api/quiz/search?quiz-name=${quizName}`);
     if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     quizzes = await response.json();
-
     clearPage();
-
-    renderQuizzesFromString(quizzes);
+    renderHomePage(quizzes);
+    attachOnClickEventsToRenderQuiz(quizzes);
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error('HomePage::error: ', err);
   }
 }
-function getMenuTableAsString(Allquiz) {
-  const menuTableLines = getAllTableLinesAsString(Allquiz);
-  const menuTable = addLinesToTableHeadersAndGet(menuTableLines);
-  return menuTable;
+function getQuizDivseAsString(Allquiz) {
+  const DivsQuizzes = getAllDivsLinesAsString(Allquiz);
+  const QuizzesSection = addLinesToSectionGet(DivsQuizzes);
+  return QuizzesSection;
 }
-function addLinesToTableHeadersAndGet(tableLines) {
-  const menuTable = `
-  <section class="layout">
-     ${tableLines}
+function addLinesToSectionGet(divsLines) {
+  const QuizzzesSection = `
+  <section class="layout" id="homeLayout">
+     ${divsLines}
   </section>
   `;
-  return menuTable;
+  return QuizzzesSection;
 }
 
-function getAllTableLinesAsString(allQuiz) {
-  let quizzesTableLines = '';
+function getAllDivsLinesAsString(allQuiz) {
+  let quizzesDivsLines = '';
 
   allQuiz?.forEach((quiz) => {
-    quizzesTableLines += `<div class= "quizContainer">
+    quizzesDivsLines += `<div class= "quizContainer" id="quiz_${quiz.id}">
       <p>${quiz.quizName}</p>
     </div>`;
   });
 
-  return quizzesTableLines;
+  return quizzesDivsLines;
 }
 
+function attachOnClickEventsToRenderQuiz(allQuiz) {
+  allQuiz?.forEach((quiz) => {
+    const idQuiz = 'quiz_'.concat(quiz.id);
+    const currentQuiz = document.getElementById(idQuiz);
+
+    currentQuiz.addEventListener('click', () => {
+      RedirectQuiz(quiz.id);
+    });
+  });
+}
+
+// bomb code inspired by Gabriele Corti : https://codepen.io/borntofrappe/pen/LwZRON
 function bombDisplay() {
   const bombHtml = `
   <svg viewBox="-1 -1 40 120" width="110" height="110">
@@ -150,13 +169,13 @@ function bombDisplay() {
         </path>
         <g>
        
-        <g transform="translate(-4.7 58)">
+        <g transform="translate(-9 65)">
             <path
-            id="MyPath"
+            id="textBoom"
             fill="none"
             d="M0,0 60,0 0,0 Q0,0 0,0 Q0,0 0,0 Q0,0 0,0 Q60,0" />
             <text>
-            <textPath id="textBoom" href="#MyPath" fill= "#E2A4FE">BOOM</textPath>
+            <textPath href="#textBoom" fill= "#FA9961">BOOM!</textPath>
             </text>
         </g>
             <g transform="rotate(20) translate(97 14)">
@@ -238,9 +257,12 @@ function bombDisplay() {
             </g>
         </g>
     </svg>
+
   `;
   return bombHtml;
 }
+
+// animation hover by Alex Chan : https://codepen.io/alexchantastic/pen/XgXbgz
 
 function animateButton(el, targetsX, scaleX, elasticityX) {
   anime.remove(el);

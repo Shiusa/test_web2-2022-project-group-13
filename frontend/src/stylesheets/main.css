@@ -1,11 +1,29 @@
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
 .tab {
   display: none;
 }
 
 input.invalid {
   background-color: #ffdddd;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  margin-top: -4.62%;
 }
 
 .step {
@@ -35,7 +53,7 @@ input.invalid {
 }
 
 .headline {
-  color: #e2a4fe;
+  color: #fa9961;
   text-align: center;
   width: 60%;
   position: absolute;
@@ -56,14 +74,22 @@ input.invalid {
   line-height: 25px;
 }
 
-.purple {
+.orange {
   width: 100px;
-  background-color: #e2a4fe;
-  border: 1px solid #e2a4fe;
+  background-color: #fa9961;
+  border: 1px solid #fa9961;
 }
-.purple:hover {
-  border: 1px solid #e2a4fe;
+.orange:hover {
+  border: 1px solid #fa9961;
 }
+
+/************************CREATE QUIZ*****************************/
+
+#wrapperlightgrey {
+  min-height: 90vh;
+}
+
+/************************END CREATE QUIZ*****************************/
 
 /************************DISPLAY QUIZ*****************************/
 .layout {
@@ -105,18 +131,21 @@ input.invalid {
   font-family: 'Muli';
   font-size: 50px;
 }
+
+#homeLayout {
+  margin-bottom: 6.62%;
+}
+
 /************************END HOME*****************************/
 
 /********************************BOMB TIMER*************************************/
+/*******************************bomb code inspired by Gabriele Corti : https://codepen.io/borntofrappe/pen/LwZRON ******************************/
 svg {
   display: inline-block;
   width: 200px;
   height: auto;
 }
 
-/* style the input of type range to highlight two dots atop a thin line
-the whole thing is optimized for chrome and should be carefully considered for cross-browser support
-*/
 #timerBomb[type='range'] {
   margin-top: 2.5rem;
   width: 300px;
@@ -126,6 +155,7 @@ the whole thing is optimized for chrome and should be carefully considered for c
   color: #0d3730;
   position: relative;
   cursor: e-resize;
+  z-index: 10;
 }
 /* circle making up the thumb */
 #timerBomb[type='range']::-webkit-slider-thumb {
@@ -141,7 +171,7 @@ the whole thing is optimized for chrome and should be carefully considered for c
   position: absolute;
   width: 100%;
   height: 1px;
-  background: #000000;
+  background: #fc6500;
   top: 50%;
   left: 0;
   transform: translateY(-50%);
@@ -155,8 +185,174 @@ the whole thing is optimized for chrome and should be carefully considered for c
   height: 100%;
   top: 0;
   left: 0;
-  border-left: 2px solid #000000;
-  border-right: 2px solid #000000;
+  border-left: 2px solid #ff5100;
+  border-right: 2px solid #ff6600;
   z-index: -5;
 }
 /********************************END BOMB TIMER*************************************/
+
+/********************************START LOGIN/REGISTER PAGE*************************************/
+
+#formDiv {
+  background-color: rgb(25, 28, 37);
+  min-height: 90vh;
+  padding-top: 8%;
+}
+
+#titleForm {
+  padding-top: 1%;
+  padding-bottom: 2%;
+  color: #fa9961;
+  font-size: 50px;
+}
+
+#username {
+  width: 25%;
+  display: block;
+  margin: 0 auto;
+}
+
+#password {
+  width: 25%;
+  display: block;
+  margin: 0 auto;
+  padding-top: 0.5%;
+}
+
+#confirmPassword {
+  width: 25%;
+  display: block;
+  margin: 0 auto;
+  padding-top: 0.5%;
+}
+
+#checkBoxWrapper {
+  text-align: center;
+}
+
+#rememberme {
+  position: absolute;
+}
+
+#labelForCheckbox {
+  padding-left: 0.5%;
+  color: #fa9961;
+}
+
+#submitButton {
+  display: block;
+  margin: auto;
+  background-color: #fa9961;
+  border-color: #fa9961;
+  color: #191c25;
+}
+
+#submitButton:hover {
+  background-color: #191c25;
+  color: #fa9961;
+}
+
+#errorMessage {
+  color: #ed4337;
+  text-align: center;
+  padding-top: 3%;
+}
+
+/********************************END LOGIN/REGISTER PAGE*************************************/
+
+main {
+  min-height: calc(100vh - 70px - 96px);
+}
+
+.quizContainer {
+  cursor: pointer;
+}
+/********************************ANIMATION QUIZ TITLE****************************************/
+
+.quizh1 {
+  position: relative;
+  font-size: 3.3em;
+}
+
+.quizh1 .text-wrapper {
+  position: relative;
+  display: inline-block;
+  padding-top: 0.2em;
+  padding-right: 0.05em;
+  padding-bottom: 0.1em;
+  overflow: hidden;
+}
+
+.quizh1 .letter {
+  display: inline-block;
+  line-height: 1em;
+}
+
+/********************************END ANIMATION QUIZ TITLE****************************************/
+
+/********************************REGISTER PAGE -> RGPD****************************************/
+#rgpd {
+  color: white;
+  font-style: italic;
+  margin-top: 10px;
+}
+#termOfUse p {
+  font-style: italic;
+  margin-right: 25px;
+  color: #fa9961;
+  text-decoration: underline;
+}
+#termOfUse p:hover {
+  color: #fa9961;
+  cursor: pointer;
+}
+/********************************END REGISTER PAGE -> RGPD****************************************/
+/***************************************START ADMIN PAGE*****************************************/
+.rightTab {
+  padding-right: 0;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  max-height: 95vh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+.rightTab::-webkit-scrollbar {
+  display: none;
+}
+.leftTab {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+.wrapperAdmin,
+.quizLink {
+  background-color: rgb(25, 28, 37);
+}
+.quizLink {
+  height: 5rem;
+  padding: 1.25rem;
+  /* border: none; */
+}
+.quizLink:hover {
+  background-color: rgb(16, 19, 26);
+}
+.quizLink a {
+  color: white;
+}
+.quizLink:hover a {
+  color: #fa9961;
+}
+.adminBtn {
+  color: white;
+  /* border: none; */
+  border-color: rgb(16, 19, 26);
+  background-color: rgb(25, 28, 37);
+}
+.adminBtn.active,
+.adminBtn:hover {
+  color: #fa9961;
+  /* border: none; */
+  border-color: rgb(16, 19, 26);
+  background-color: rgb(16, 19, 26);
+}
+/*****************************************END ADMIN PAGE*****************************************/
